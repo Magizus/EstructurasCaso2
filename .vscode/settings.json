@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "stack": "cpp",
+        "deque": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "xlocinfo": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
+    }
+}

@@ -1,0 +1,37 @@
+{
+
+    "capacidadAlmacen": {
+        "minCapacidad" : 0,
+        "maxCapacidad" : 500
+    },
+    "capacidadCamion" : {
+        "minCapacidad" : 25,
+        "maxCapacidad" : 150,
+    },
+    "colaCamiones" : [],
+    "pilaProductoCamion" : [],
+    "pilaProductoAlmacen" : []
+    }, 
+    "horarioDescarga" : {
+        "horaInicio" : "10:00 PM",
+        "horaFin" : "6:00 AM"
+    }, 
+    "horarioCarga" : {
+        "horaInicio" : "8:00 AM",
+        "horaFin" : "6:00 PM"
+    },
+    "tiempoDescarga" : {
+        "minimoTiempo" : 38, //capacidadCamion.minCapacidad * tiempoDescargaporProducto
+        "maximoTiempo" : 225, //capacidadCamion.maxCapacidad * tiempoDescargaporProducto
+    },
+    "tiempoCarga" : {
+        "minimoTiempo" : 25, //capacidadCamion.minCapacidad * tiempoCargaporProducto
+        "maximoTiempo" : 150, //capacidadCamion.maxCapacidad * tiempoCargaporProducto
+    },
+    "Producto" : {
+        "tiempoDescargaporProducto" : 1.5, //minutos
+        "tiempoCargaporProducto": 1, //minuto
+    },
+    "tiposProductos" : ["ropa", "repuestos", "armas", "salsa lizano", "animales", "rosas", "coca cola", "dinero"],
+    "listaAlmacen" : [ "pilaProductoAlmacen_A", "pilaProductoAlmacen_B", "pilaProductoAlmacen_C" ]
+}
