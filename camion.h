@@ -57,13 +57,8 @@ public:
     }
 }
 
-
-
-
-
-
-
-
-
+    Pila<Produ> getPila(){
+        return Cargamento;
+    }
     
 };
