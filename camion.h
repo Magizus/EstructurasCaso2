@@ -43,6 +43,7 @@ public:
         }
     }
 
+/*
     void mostrarCargamento() {
     if (Cargamento.isEmpty()) {
         cout << "El camión está vacio." << endl;
@@ -56,9 +57,16 @@ public:
         }
     }
 }
-
+*/
     Pila<Produ> getPila(){
         return Cargamento;
+    }
+
+    int getPlaca(){
+        return placa;
+    }
+    string getTproducto(){
+        return Tproducto;
     }
     
 };
