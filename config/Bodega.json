@@ -1,0 +1,42 @@
+{
+  "capacidadAlmacen": {
+    "minCapacidad": 0,
+    "maxCapacidad": 500
+  },
+  "capacidadCamion": {
+    "minCapacidad": 25,
+    "maxCapacidad": 150
+  },
+  "horarioDescarga": {
+    "horaInicio": "10:00 PM",
+    "horaNoAceptarMas:": "5:45 AM",
+    "horaFin": "6:00 AM"
+  },
+  "horarioCarga": {
+    "horaInicio": "8:00 AM",
+    "horaNoAceptarMas:": "5:45 PM",
+    "horaFin": "6:00 PM"
+  },
+  "tiempoDescarga": {
+    "minimoTiempo": 38,
+    "maximoTiempo": 225
+  },
+  "tiempoCarga": {
+    "minimoTiempo": 25,
+    "maximoTiempo": 150
+  },
+  "producto": {
+    "tiempoDescargaporProducto": 1.5,
+    "tiempoCargaporProducto": 1
+  },
+  "tiposProductos": [
+    "ropa",
+    "repuestos",
+    "armas",
+    "salsa lizano",
+    "animales",
+    "rosas",
+    "coca cola",
+    "dinero"
+  ]
+}
