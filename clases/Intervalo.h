@@ -8,22 +8,23 @@ public:
     int minimo;
     int maximo;
 
-
-
-    Intervalo(){
-        
+    Intervalo()
+    {
     }
 
-    Intervalo(int minimo, int maximo){
+    Intervalo(int minimo, int maximo)
+    {
         this->minimo = minimo;
         this->maximo = maximo;
     }
 
-    int getMaximo(){
+    int getMaximo()
+    {
         return maximo;
     }
 
-     int getMinimo(){
+    int getMinimo()
+    {
         return minimo;
     }
 

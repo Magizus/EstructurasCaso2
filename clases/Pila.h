@@ -11,8 +11,8 @@ private:
     vector<T> elementos;
 
 public:
-    Pila(){
-        
+    Pila()
+    {
     }
 
     void push(T &elemento)
@@ -31,7 +31,7 @@ public:
         }
         else
         {
-            throw std::runtime_error("La pila está vacía");
+            throw runtime_error("La pila está vacía");
         }
     }
 
@@ -44,7 +44,7 @@ public:
         }
         else
         {
-            throw std::runtime_error("La pila está vacía");
+            throw runtime_error("La pila está vacía");
         }
     }
 

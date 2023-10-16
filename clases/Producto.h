@@ -9,8 +9,7 @@ private:
     int valor;
 
 public:
-    // Constructor de @ProdU
-    Produ(string nombre, int val) : producto(nombre), valor(val) {}
+        Produ(string nombre, int val) : producto(nombre), valor(val) {}
 
     int getValor()
     {

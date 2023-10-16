@@ -17,42 +17,42 @@ public:
     {
     }
 
-    Almacen(int capacidadAlmacen, vector<string> tiposPermitidos)
+    Almacen(int capacidadAlmacen, vector<string> tipos)
     {
+        tiposPermitidos = tipos;
         capacidadT = capacidadAlmacen;
-        tiposPermitidos = tiposPermitidos;
-        for (int i = 0; i < sizeof(tiposPermitidos); i++)
+        for (int i = 0; i < tiposPermitidos.size(); i++)
         {
-            
-            Pila pilaDeProducto =  Pila<Produ>();
-            inventario[i] = pilaDeProducto;
+
+            Pila pilaDeProducto = Pila<Produ>();
+            inventario.push_back(pilaDeProducto);
 
             cout << "Se ha creado una nueva pila para el producto " << tiposPermitidos[i] << "." << endl;
         }
     }
 
-    int getIndex(string K) 
-    { 
-        auto it = find(tiposPermitidos.begin(), tiposPermitidos.end(), K); 
-  
-        // If element was found 
-        if (it != tiposPermitidos.end())  
-        { 
-        // calculating the index  of K 
-            int index = it - tiposPermitidos.begin(); 
+    int getIndex(string K)
+    {
+        auto it = find(tiposPermitidos.begin(), tiposPermitidos.end(), K);
+
+        // If element was found
+        if (it != tiposPermitidos.end())
+        {
+            // calculating the index  of K
+            int index = it - tiposPermitidos.begin();
             return index;
-        } 
-         else 
-         { 
-        return -1;
-    } 
-} 
+        }
+        else
+        {
+            return -1;
+        }
+    }
 
     void DepositarA(Camion &Camion)
     {
         Pila<Produ> PilaC = Camion.getPila();
         int indexT = getIndex(Camion.getTproducto());
-    
+
         while (!PilaC.isEmpty())
         {
             Produ producto = PilaC.top();
@@ -71,10 +71,4 @@ public:
             }
         }
     }
-
-
-
-
-
-
 };

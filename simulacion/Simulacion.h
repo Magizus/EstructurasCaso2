@@ -2,10 +2,9 @@
 #include <vector>
 #include "json.hpp"
 #include <fstream>
-#include "./clases/Pila.h"
-#include "clases/Almacen.h"
-#include "clases/Configuracion.h"
-#include "logica/Utilidad.h"
+#include "../clases/Configuracion.h"
+#include "../logica/Utilidad.h"
+#include <chrono>
 using namespace std;
 
 class Simulacion
@@ -26,11 +25,17 @@ public:
 
     // Instanciar Config y otros attr
     Intervalo capacidadAlmacen = Intervalo(jsonData["capacidadAlmacen"]["minCapacidad"], jsonData["capacidadAlmacen"]["maxCapacidad"]);
+
     Intervalo capacidadCamion = Intervalo(jsonData["capacidadCamion"]["minCapacidad"], jsonData["capacidadCamion"]["maxCapacidad"]);
+
     Horario horarioDescarga = Horario(jsonData["horarioDescarga"]["horaInicio"], jsonData["horarioDescarga"]["horaNoAceptarMas"], jsonData["horarioDescarga"]["horaFin"]);
+
     Horario horarioCarga = Horario(jsonData["horarioCarga"]["horaInicio"], jsonData["horarioCarga"]["horaNoAceptarMas"], jsonData["horarioCarga"]["horaFin"]);
+
     Intervalo tiempoDescarga = Intervalo(jsonData["tiempoDescarga"]["minimoTiempo"], jsonData["tiempoDescarga"]["maximoTiempo"]);
+
     Intervalo tiempoCarga = Intervalo(jsonData["tiempoCarga"]["minimoTiempo"], jsonData["tiempoCarga"]["maximoTiempo"]);
+
     vector<string> tiposProductos = jsonData["tiposProductos"];
 
     cout << "Iniciando construccion de ambiente." << endl;
@@ -44,7 +49,7 @@ public:
                                           tiposProductos);
 
     cout << "Cargando informacion pre-definida." << endl;
-    utilidad = Utilidad(configuracionAmbiente.capacidadAlmacen, configuracionAmbiente.tiposProductos);
+    utilidad = Utilidad(capacidadAlmacen, tiposProductos);
   }
 
   int capacidadC()
@@ -56,7 +61,7 @@ public:
   string tipoC()
   {
 
-    int x = rand() % sizeof(configuracionAmbiente.tiposProductos);
+    int x = rand() % configuracionAmbiente.tiposProductos.size();
     return configuracionAmbiente.tiposProductos[x];
   }
 
@@ -74,11 +79,22 @@ public:
     return nuevoP;
   }
 
-  int calcularT(){
+  int calcularT()
+  {
     int tiempo = rand() % (configuracionAmbiente.tiempoDescarga.getMaximo() - configuracionAmbiente.tiempoDescarga.getMinimo() + 1) + configuracionAmbiente.tiempoDescarga.getMinimo();
-    return tiempo*5;
+    return tiempo;
   }
+/*
+  chrono::system_clock::time_point formatearFecha()
+  {
 
+    string date_time_format = "%m/%d/%Y";
+    istringstream ss{ "4/28/2022" };
+    chrono::year_month_day date;
+
+    ss >> chrono::parse(date_time_format, date);
+  }
+*/
   void empezarSimulacion()
   {
 
@@ -104,10 +120,12 @@ public:
       }
       int tiempo = calcularT();
       int z = utilidad.RevisarCola();
-      if (z = 1){
-       
+      if (z = 1)
+      {
+        string tiempoActual;
         i += tiempo / 5;
-        cout<<"Se proceso un camion y duro "<< tiempo/5 <<" minutos"<<endl;
+        cout << "Se proceso un camion y duro " << tiempo << " minutos" << endl;
+        cout <<"----------"<< endl;
       }
     }
   }

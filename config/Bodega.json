@@ -8,22 +8,22 @@
     "maxCapacidad": 300
   },
   "horarioDescarga": {
-    "horaInicio": "10:00 PM",
-    "horaNoAceptarMas:": "5:45 AM",
-    "horaFin": "6:00 AM"
+    "horaInicio": "8:00",
+    "horaNoAceptarMas": "17:45",
+    "horaFin": "18:00 "
   },
   "horarioCarga": {
-    "horaInicio": "8:00 AM",
-    "horaNoAceptarMas:": "5:45 PM",
-    "horaFin": "6:00 PM"
+    "horaInicio": "8:00",
+    "horaNoAceptarMas": "17:45",
+    "horaFin": "18:00 "
   },
   "tiempoDescarga": {
     "minimoTiempo": 30,
-    "maximoTiempo": 225
+    "maximoTiempo": 60
   },
   "tiempoCarga": {
     "minimoTiempo": 25,
-    "maximoTiempo": 150
+    "maximoTiempo": 50
   },
   
   "tiposProductos": [

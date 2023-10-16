@@ -15,9 +15,8 @@ public:
   Intervalo tiempoCarga;
   vector<string> tiposProductos;
 
-
-  Configuracion(){
-
+  Configuracion()
+  {
   }
 
   Configuracion(
@@ -27,13 +26,13 @@ public:
       Intervalo tiempoCarga,
       vector<string> tiposProductos)
   {
-    capacidadAlmacen = capacidadAlmacen;
-    capacidadCamion = capacidadCamion;
-    horarioDescarga = horarioDescarga;
-    horarioCarga = horarioCarga;
-    tiempoDescarga = tiempoDescarga;
-    tiempoCarga = tiempoCarga;
-    tiposProductos = tiposProductos;
+    this->capacidadAlmacen = capacidadAlmacen;
+    this->capacidadCamion = capacidadCamion;
+    this->horarioDescarga = horarioDescarga;
+    this->horarioCarga = horarioCarga;
+    this->tiempoDescarga = tiempoDescarga;
+    this->tiempoCarga = tiempoCarga;
+    this->tiposProductos = tiposProductos;
   }
 
 private:
