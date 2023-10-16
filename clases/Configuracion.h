@@ -13,34 +13,27 @@ public:
   Horario horarioCarga;
   Intervalo tiempoDescarga;
   Intervalo tiempoCarga;
-  {
-    float tiempoDescargaporProducto;
-    float tiempoCargaporProducto;
-  }
-  producto;
-  string tiposProductos[];
+  vector<string> tiposProductos;
 
-  Configuracion()
-  {
+
+  Configuracion(){
+
   }
+
   Configuracion(
       Intervalo capacidadAlmacen, Intervalo capacidadCamion, Horario horarioDescarga,
       Horario horarioCarga,
       Intervalo tiempoDescarga,
-      Intervalo tiempoCarga, {
-        float tiempoDescargaporProducto;
-        float tiempoCargaporProducto;
-      } producto,
-      array<string> tiposProductos)
+      Intervalo tiempoCarga,
+      vector<string> tiposProductos)
   {
-    this.capacidadAlmacen = capacidadAlmacen;
-    this.capacidadCamion = capacidadCamion;
-    this.horarioDescarga = horarioDescarga;
-    this.horarioCarga = horarioCarga;
-    this.tiempoDescarga = tiempoDescarga;
-    this.tiempoCarga = tiempoCarga;
-    this.producto = producto;
-    this.tiposProductos = tiposProductos;
+    capacidadAlmacen = capacidadAlmacen;
+    capacidadCamion = capacidadCamion;
+    horarioDescarga = horarioDescarga;
+    horarioCarga = horarioCarga;
+    tiempoDescarga = tiempoDescarga;
+    tiempoCarga = tiempoCarga;
+    tiposProductos = tiposProductos;
   }
 
 private:

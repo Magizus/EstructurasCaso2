@@ -11,6 +11,10 @@ private:
     vector<T> elementos;
 
 public:
+    Pila(){
+        
+    }
+
     void push(T &elemento)
     {
         elementos.push_back(elemento);

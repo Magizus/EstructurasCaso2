@@ -1,12 +1,8 @@
 #include <iostream>
-#include <map>
-#include <queue>
-#include <stack>
-#include <string>
 #include <vector>
+#include "json.hpp"
 #include <fstream>
-#include <json/value.h>
-#include "clases/Pila.h"
+#include "./clases/Pila.h"
 #include "clases/Almacen.h"
 #include "clases/Configuracion.h"
 #include "logica/Utilidad.h"
@@ -25,114 +21,94 @@ public:
     cout << "Comenzando Inicializacion." << endl;
     // Conseguir Config
     cout << "Leyendo archivo de configuracion." << endl;
-    std::ifstream config_file("./config/Bodega.json", std::ifstream::binary);
-    Json::Value config;
-    config_file >> config;
+    ifstream jsonFileStream("./config/Bodega.json");
+    nlohmann ::json jsonData = nlohmann::json::parse(jsonFileStream);
 
-    cout << config;
     // Instanciar Config y otros attr
+    Intervalo capacidadAlmacen = Intervalo(jsonData["capacidadAlmacen"]["minCapacidad"], jsonData["capacidadAlmacen"]["maxCapacidad"]);
+    Intervalo capacidadCamion = Intervalo(jsonData["capacidadCamion"]["minCapacidad"], jsonData["capacidadCamion"]["maxCapacidad"]);
+    Horario horarioDescarga = Horario(jsonData["horarioDescarga"]["horaInicio"], jsonData["horarioDescarga"]["horaNoAceptarMas"], jsonData["horarioDescarga"]["horaFin"]);
+    Horario horarioCarga = Horario(jsonData["horarioCarga"]["horaInicio"], jsonData["horarioCarga"]["horaNoAceptarMas"], jsonData["horarioCarga"]["horaFin"]);
+    Intervalo tiempoDescarga = Intervalo(jsonData["tiempoDescarga"]["minimoTiempo"], jsonData["tiempoDescarga"]["maximoTiempo"]);
+    Intervalo tiempoCarga = Intervalo(jsonData["tiempoCarga"]["minimoTiempo"], jsonData["tiempoCarga"]["maximoTiempo"]);
+    vector<string> tiposProductos = jsonData["tiposProductos"];
+
     cout << "Iniciando construccion de ambiente." << endl;
-    configuracionAmbiente = new Configuracion(config["capacidadAlmacen"],
-                                              config["capacidadCamion"],
-                                              config["horarioDescarga"],
-                                              config["horarioCarga"],
-                                              config["tiempoDescarga"],
-                                              config["tiempoCarga"],
-                                              config["producto"],
-                                              // Pre-llenado de informacion
-                                              config["tiposProductos"]);
+    configuracionAmbiente = Configuracion(capacidadAlmacen,
+                                          capacidadCamion,
+                                          horarioDescarga,
+                                          horarioCarga,
+                                          tiempoDescarga,
+                                          tiempoCarga,
+                                          // Pre-llenado de informacion
+                                          tiposProductos);
 
     cout << "Cargando informacion pre-definida." << endl;
-    utilidad = new Utilidad(configuracionAmbiente.capacidadAlmacen, configuracionAmbiente.tiposProductos)
+    utilidad = Utilidad(configuracionAmbiente.capacidadAlmacen, configuracionAmbiente.tiposProductos);
+  }
+
+  int capacidadC()
+  {
+    int numeroAleatorio = rand() % (configuracionAmbiente.capacidadCamion.getMaximo() - configuracionAmbiente.capacidadCamion.getMinimo() + 1) + configuracionAmbiente.capacidadCamion.getMinimo();
+    return numeroAleatorio;
+  }
+
+  string tipoC()
+  {
+
+    int x = rand() % sizeof(configuracionAmbiente.tiposProductos);
+    return configuracionAmbiente.tiposProductos[x];
+  }
+
+  Produ produC(string nombre)
+  {
+
+    int numeroAleatorio;
+    do
+    {
+      numeroAleatorio = (rand() % 201) + 100;
+    } while (numeroAleatorio % 5 != 0);
+
+    Produ nuevoP = Produ(nombre, numeroAleatorio);
+
+    return nuevoP;
+  }
+
+  int calcularT(){
+    int tiempo = rand() % (configuracionAmbiente.tiempoDescarga.getMaximo() - configuracionAmbiente.tiempoDescarga.getMinimo() + 1) + configuracionAmbiente.tiempoDescarga.getMinimo();
+    return tiempo*5;
   }
 
   void empezarSimulacion()
   {
-    // Aqui comienza la simulacion a enviar señales a la clase Utilidad
-  }
 
-  // Método para agregar una nueva pila de productos a la lista (si no existe)
-
-  void pasarElementosAux(Pila<Camion> &pilaCamion, Pila<Almacen> &pilaAlmacen)
-  {
-    int MaxLargo = 10;
-    if (MaxLargo - sizeof(pilaAlmacen) >= sizeof(pilaCamion))
+    for (int i = 0; i < 100; i++)
     {
-      pasarElementosFull(pilaCamion, pilaAlmacen);
-    }
-    else if (MaxLargo - sizeof(pilaAlmacen) < sizeof(pilaCamion))
-    {
-      bool R = respuesta();
-      if (R == true)
+      int probC = rand() % 5;
+      if (probC < 3)
       {
-        pasarElementosParcial(pilaCamion, pilaAlmacen, MaxLargo - sizeof(pilaAlmacen));
+        int a = capacidadC();
+        string b = tipoC();
+
+        Pila<Produ> cargamento;
+        Camion camion = Camion(a, b, cargamento);
+        for (int i = 0; i < 3; i++)
+        {
+          Produ c = produC(b);
+          if (a - camion.getEspacioO() > c.getValor())
+          {
+            camion.cargarProducto(c);
+          }
+        }
+        utilidad.ingresarCamion(camion);
       }
-    }
-    else if (MaxLargo - sizeof(pilaAlmacen) == 0)
-    {
-      cout << "No queda campo para este tipo de producto";
-    }
-  }
-
-  // Función para pasar elementos de la Lista A a la Lista B
-  void pasarElementosFull(Pila<Camion> &pilaCamion, Pila<Almacen> &pilaAlmacen)
-  {
-    while (!pilaCamion.isEmpty())
-    {
-      Camion elemento = pilaCamion.top(); // Obtener el elemento superior de A
-      pilaCamion.pop();                   // Eliminar el elemento superior de A
-      Pila<Produ> productos = elemento.getPila();
-      while (productos.isEmpty())
-      {
-        pilaAlmacen.push(productos.pop()); // Agregar el elemento a B
+      int tiempo = calcularT();
+      int z = utilidad.RevisarCola();
+      if (z = 1){
+       
+        i += tiempo / 5;
+        cout<<"Se proceso un camion y duro "<< tiempo/5 <<" minutos"<<endl;
       }
-    }
-  }
-
-  void pasarElementosParcial(Pila<Camion> &pilaCamion, Pila<Almacen> &pilaAlmacen, int cantPasar)
-  {
-
-    for (int i = 0; i < cantPasar; i++)
-    {
-      if (!pilaCamion.estaVacia())
-      {
-        string elemento = pilaCamion.top(); // Obtener el elemento superior de la pilaCamion
-        pilaCamion.pop();                   // Eliminar el elemento superior de la pilaCamion
-        pilaAlmacen.push(elemento);         // Agregar el elemento a la pilaAlmacen
-      }
-      else
-      {
-        cout << "La pilaCamion está vacía. No se pueden pasar más elementos." << endl;
-        break;
-      }
-    }
-  }
-
-  bool respuesta()
-  {
-    int opcion;
-
-    cout << "No hay capacidad suficiente para guardar todo lo del camion." << endl;
-    cout << "Desea guardar lo maximo posible o no desea guardar nada." << endl;
-    cout << "1. Guardar lo maximo posible" << endl;
-    cout << "2. No guardar." << endl;
-    cout << "Ingrese 1 o 2: ";
-
-    cin >> opcion;
-
-    while (opcion != 1 && opcion != 2)
-    {
-      cout << "Opción no válida. Por favor, ingrese 1 o 2: ";
-      cin >> opcion;
-    }
-
-    if (opcion == 1)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
     }
   }
 };

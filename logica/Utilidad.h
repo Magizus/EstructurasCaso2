@@ -16,17 +16,24 @@ private:
 
 public:
     // Constructor
-    Utilidad(int capacidadAlmacen, string tiposProductos[])
-    {
-        string productosRandom[capacidadAlmacen]; // lista para crear tipos de producto random basado en la capacidad de pilas del almacen
-        colaDeCamiones = new queue<Camion>();
 
-        for (int i = 0; i < capacidadAlmacen; i++)
-        {
-            productosRandom[i] = tiposProductos[rand() % sizeof(tiposProductos - 1) + 0]
-        }
-        almacen = new Almacen(capacidadAlmacen, productosRandom);
+    Utilidad(){
+
     }
+
+    Utilidad(Intervalo capacidadAlmacen, vector<string> tiposProductos)
+    {
+        vector<string> tiposRandom; // lista para crear tipos de producto random basado en la capacidad de pilas del almacen
+        colaDeCamiones =  queue<Camion>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            tiposRandom[i] = rand() % sizeof(tiposProductos);
+        }
+        almacen =  Almacen(capacidadAlmacen.getMaximo(), tiposRandom);
+    }
+
+
 
     // Método para ingresar un camión al frente de la cola
     void ingresarCamion(Camion camionLLegada)
@@ -34,29 +41,7 @@ public:
         colaDeCamiones.push(camionLLegada);
     }
 
-    void MostrarCamiones()
-    {
-        if (colaDeCamiones.empty())
-        {
-            cout << "La cola de camiones está vacía." << endl;
-        }
-        else
-        {
-            cout << "Camiones en la cola:" << endl;
 
-            // Crear una cola temporal para mostrar los camiones sin alterar la original
-            queue<Camion> colaTemporal = colaDeCamiones;
-
-            while (!colaTemporal.empty())
-            {
-                Camion camion = colaTemporal.front();
-                cout << "Placa del camion: " << camion.getPlaca() << endl;
-                cout << "Tipo de producto: " << camion.getTproducto() << endl;
-                // También puedes mostrar otros detalles del camión aquí si lo deseas
-                colaTemporal.pop();
-            }
-        }
-    }
     void ingresarCamion(Camion camionLLegada)
     {
         colaDeCamiones.push(camionLLegada);
@@ -95,30 +80,30 @@ public:
     {
         return colaDeCamiones.size();
     }
-    // Método para agregar productos a una pila en el almacén
-    void agregarProducto(string &tipoProducto, int cantidad)
-    {
-        if (almacen.find(tipoProducto) != almacen.end())
-        {
-            almacen[tipoProducto].push(cantidad);
+
+
+    int RevisarCola(){
+        cout<< "Validando si hay camiones en la fila."<< endl;
+        if(tamanoCola()> 0 ){
+            cout<<"Hay camiones en la fila."<<endl;
+            procesarCola();
+            return 1;
+        }else{
+            cout<<"No hay camiones en la fila."<<endl;
+            return 0;
         }
+
     }
 
-    // Método para restar productos de una pila en el almacén
-    bool restarProducto(string &tipoProducto, int cantidad)
+    void procesarCola(){
+    Camion camion = obtenerCamionFrontal();
+    cout << "Validando tipo de producto."<< endl;
+    if (almacen.getIndex(camion.getTproducto()) != -1)
     {
-        if (almacen.find(tipoProducto) != almacen.end())
-        {
-            stack<int> &pila = almacen[tipoProducto];
-            if (!pila.empty() && pila.size() >= cantidad)
-            {
-                for (int i = 0; i < cantidad; i++)
-                {
-                    pila.pop();
-                }
-                return true; // Se restaron los productos con éxito
-            }
-        }
-        return false; // No se pudo restar la cantidad solicitada de productos
+        cout <<"Ingresando un camion"<< endl;
+        almacen.DepositarA(camion);
     }
+    eliminarCamionFrontal();
+    }
+
 };

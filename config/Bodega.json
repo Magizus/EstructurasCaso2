@@ -1,11 +1,11 @@
 {
   "capacidadAlmacen": {
-    "minCapacidad": 0,
-    "maxCapacidad": 500
+    "minCapacidad": 500,
+    "maxCapacidad": 900
   },
   "capacidadCamion": {
-    "minCapacidad": 25,
-    "maxCapacidad": 150
+    "minCapacidad": 100,
+    "maxCapacidad": 300
   },
   "horarioDescarga": {
     "horaInicio": "10:00 PM",
@@ -18,17 +18,14 @@
     "horaFin": "6:00 PM"
   },
   "tiempoDescarga": {
-    "minimoTiempo": 38,
+    "minimoTiempo": 30,
     "maximoTiempo": 225
   },
   "tiempoCarga": {
     "minimoTiempo": 25,
     "maximoTiempo": 150
   },
-  "producto": {
-    "tiempoDescargaporProducto": 1.5,
-    "tiempoCargaporProducto": 1
-  },
+  
   "tiposProductos": [
     "ropa",
     "repuestos",
@@ -39,4 +36,5 @@
     "coca cola",
     "dinero"
   ]
+  
 }

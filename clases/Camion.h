@@ -7,14 +7,17 @@ using namespace std;
 class Camion
 {
 private:
-    int placa;
     int capacidadT;
     int espacioOcupado = 0;
     string tproducto;
     Pila<Produ> cargamento;
 
 public:
-    Camion(int p, int cap, string tprod, Pila<Produ> cargamento) : placa(p), capacidadT(cap), tproducto(tprod), cargamento(cargamento) {}
+    Camion(int cap, string tprod, Pila<Produ> cargamento) : capacidadT(cap), tproducto(tprod), cargamento(cargamento) {}
+
+    Camion()
+    {
+    }
 
     void cargarProducto(Produ &producto)
     {
@@ -61,9 +64,10 @@ public:
     {
         return cargamento;
     }
-    int getPlaca()
+
+    int getEspacioO()
     {
-        return placa;
+        return espacioOcupado;
     }
     string getTproducto()
     {
